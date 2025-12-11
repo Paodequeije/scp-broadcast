@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SCP Broadcast Generator</title>
+<style>
+  body {
+    background-color: #111;
+    color: #0f0;
+    font-family: monospace;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+
+  button, input[type="checkbox"], select, input[type="text"] {
+    margin: 5px;
+    padding: 5px;
+    background-color: #111;
+    color: #0f0;
+    border: 1px solid #0f0;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #0f0;
+    color: #111;
+  }
+
+  #broadcast {
+    margin-top: 20px;
+    padding: 10px;
+    border: 2px solid #0f0;
+    width: 90%;
+    text-align: left;
+    white-space: pre-wrap;
+    min-height: 50px;
+  }
+
+  .dropdown {
+    position: relative;
+    display: inline-block;
+    width: 250px;
+    margin-bottom: 10px;
+  }
+
+  .dropbtn {
+    background-color: #111;
+    color: #0f0;
+    padding: 8px;
+    border: 1px solid #0f0;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #111;
+    border: 1px solid #0f0;
+    width: 100%;
+    z-index: 1;
+    max-height: 180px;
+    overflow-y: auto;
+  }
+
+  .dropdown-content label {
+    display: block;
+    padding: 5px;
+    cursor: pointer;
+  }
+
+  .dropdown-content label:hover {
+    background-color: #0f0;
+    color: #111;
+  }
+
+  .show {
+    display: block;
+  }
+
+  /* Menu de eventos personalizados */
+  #customEventMenu {
+    position: fixed;
+    top: 50px;
+    right: 10px;
+    width: 300px;
+    background-color: #111;
+    border: 1px solid #0f0;
+    padding: 10px;
+    display: none;
+    z-index: 999;
+  }
+
+  #footer {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    color: #0f0;
+    font-family: monospace;
+    font-size: 12px;
+    opacity: 0.7;
+  }
+</style>
+</head>
+<body>
+
+<h1>SCP Broadcast Generator</h1>
+
+<!-- SCP BREACHED Section -->
+<div class="dropdown">
+  <div class="dropbtn" id="scpButton" onclick="toggleDropdown('scpDropdown')">Select SCP(s)</div>
+  <div class="dropdown-content" id="scpDropdown">
+    <label><input type="checkbox" value="SCP-035" class="scp"> SCP-035</label>
+    <label><input type="checkbox" value="SCP-049" class="scp"> SCP-049</label>
+    <label><input type="checkbox" value="SCP-034" class="scp"> SCP-034</label>
+    <label><input type="checkbox" value="SCP-2K6" class="scp"> SCP-2K6</label>
+    <label><input type="checkbox" value="SCP-939" class="scp"> SCP-939</label>
+    <label><input type="checkbox" value="SCP-323" class="scp"> SCP-323</label>
+    <label><input type="checkbox" value="SCP-106" class="scp"> SCP-106</label>
+    <label><input type="checkbox" value="SCP-096" class="scp"> SCP-096</label>
+    <label><input type="checkbox" value="SCP-701" class="scp"> SCP-701</label>
+    <label><input type="checkbox" value="SCP-017" class="scp"> SCP-017</label>
+    <label><input type="checkbox" value="SCP-457" class="scp"> SCP-457</label>
+    <label><input type="checkbox" value="SCP-569" class="scp"> SCP-569</label>
+    <label><input type="checkbox" value="SCP-076" class="scp"> SCP-076</label>
+  </div>
+</div>
+
+<!-- Test Permission Required -->
+<label><input type="checkbox" id="testPermCheck" onclick="toggleDropdown('testPermDropdown')"> Test Perm Needed For</label>
+<div class="dropdown">
+  <div class="dropbtn" id="testPermButton" onclick="toggleDropdown('testPermDropdown')">Select SCP(s)</div>
+  <div class="dropdown-content" id="testPermDropdown">
+    <label><input type="checkbox" value="SCP-035" class="testscp" onclick="updateTestPermButton()"> SCP-035</label>
+    <label><input type="checkbox" value="SCP-049" class="testscp" onclick="updateTestPermButton()"> SCP-049</label>
+    <label><input type="checkbox" value="SCP-034" class="testscp" onclick="updateTestPermButton()"> SCP-034</label>
+    <label><input type="checkbox" value="SCP-2K6" class="testscp" onclick="updateTestPermButton()"> SCP-2K6</label>
+    <label><input type="checkbox" value="SCP-939" class="testscp" onclick="updateTestPermButton()"> SCP-939</label>
+    <label><input type="checkbox" value="SCP-323" class="testscp" onclick="updateTestPermButton()"> SCP-323</label>
+    <label><input type="checkbox" value="SCP-106" class="testscp" onclick="updateTestPermButton()"> SCP-106</label>
+    <label><input type="checkbox" value="SCP-096" class="testscp" onclick="updateTestPermButton()"> SCP-096</label>
+    <label><input type="checkbox" value="SCP-701" class="testscp" onclick="updateTestPermButton()"> SCP-701</label>
+    <label><input type="checkbox" value="SCP-017" class="testscp" onclick="updateTestPermButton()"> SCP-017</label>
+    <label><input type="checkbox" value="SCP-457" class="testscp" onclick="updateTestPermButton()"> SCP-457</label>
+    <label><input type="checkbox" value="SCP-569" class="testscp" onclick="updateTestPermButton()"> SCP-569</label>
+    <label><input type="checkbox" value="SCP-076" class="testscp" onclick="updateTestPermButton()"> SCP-076</label>
+    <hr style="border-color:#0f0;">
+    <label><input type="checkbox" value="CON-X" class="testscp" onclick="updateTestPermButton()"> CON-X</label>
+  </div>
+</div>
+
+<select id="threat">
+  <option value="LOW">LOW</option>
+  <option value="MEDIUM">MEDIUM</option>
+  <option value="HIGH">HIGH</option>
+</select>
+
+<select id="status">
+  <option value="SCP BREACH">SCP BREACH</option>
+  <option value="SITE LOCKDOWN">SITE LOCKDOWN</option>
+  <option value="CLASS-D ESCAPE">CLASS-D ESCAPE</option>
+  <option value="CLASS-D RIOT">CLASS-D RIOT</option>
+  <option value="610 EVENT">610 EVENT</option>
+  <option value="076 EVENT">076 EVENT</option>
+  <option value="NUCLEAR PROTOCOL">NUCLEAR PROTOCOL</option>
+  <option value="CLEAR">CLEAR</option>
+  <option value="CHAOS INSURGENCY">CHAOS INSURGENCY</option>
+</select>
+
+<select id="testing">
+  <option value="ALLOWED">ALLOWED</option>
+  <option value="PROHIBITED">PROHIBITED</option>
+</select>
+
+<!-- Extras -->
+<label><input type="checkbox" id="id"> ID</label>
+<label><input type="checkbox" id="showEventText"> Show Event Text</label>
+<label><input type="checkbox" id="appendSCP"> Append | S.C.P at End</label>
+
+<!-- Menu de Eventos Customizados -->
+<button onclick="toggleCustomEventMenu()">Custom Event Menu</button>
+<div id="customEventMenu">
+  <input type="text" id="customEventInput" placeholder="Enter custom event text">
+  <button onclick="addCustomEvent()">Add Event</button>
+  <button onclick="deselectCustomEvent()">Deselect Event</button>
+  <button onclick="hideCustomEventMenu()">Hide Menu</button>
+  <select id="customEventSelect" size="5" style="width:100%; margin-top:5px;" onchange="selectCustomEvent()"></select>
+</div>
+
+<button onclick="copyBroadcast()">COPY TO CLIPBOARD</button>
+
+<div id="broadcast"><span id="typedText"></span></div>
+
+<div id="footer">make by jhony_.1 DC</div>
+
+<script>
+let customEvents = [];
+
+function toggleDropdown(id) {
+  document.getElementById(id).classList.toggle("show");
+}
+
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn') && !event.target.matches('#testPermCheck')) {
+    document.querySelectorAll('.dropdown-content').forEach(dd => dd.classList.remove('show'));
+  }
+}
+
+function updateSCPButton() {
+  const selected = Array.from(document.querySelectorAll('.scp:checked')).map(cb => cb.value);
+  document.getElementById('scpButton').innerText = selected.length > 0 ? selected.join(', ') : 'Select SCP(s)';
+  generateBroadcast();
+}
+
+function updateTestPermButton() {
+  let selected = Array.from(document.querySelectorAll('.testscp:checked')).map(cb => cb.value);
+  selected = selected.filter(s => s !== 'CON-X').concat(selected.includes('CON-X') ? ['CON-X'] : []);
+  document.getElementById('testPermButton').innerText = selected.length > 0 ? selected.join(', ') : 'Select SCP(s)';
+  generateBroadcast();
+}
+
+document.querySelectorAll('.scp, .testscp, select, #id, #testPermCheck, #showEventText, #appendSCP').forEach(el => {
+  el.addEventListener('change', generateBroadcast);
+});
+
+function generateBroadcast() {
+  const scpsSelected = Array.from(document.querySelectorAll('.scp:checked')).map(cb => cb.value);
+  const scpsNumbers = scpsSelected.map(scp => scp.includes('SCP-') ? scp.split('-')[1] : scp);
+  let scpsText = "";
+  if (scpsNumbers.length === 1) scpsText = "SCP BREACHED: " + scpsNumbers[0];
+  else if (scpsNumbers.length > 1) scpsText = "SCPs BREACHEDS: " + scpsNumbers.join(', ');
+
+  const threat = document.getElementById('threat').value;
+  const status = document.getElementById('status').value;
+  const testing = document.getElementById('testing').value;
+
+  const statusTexts = {
+    "SCP BREACH": "All personnel must initiate containment protocols immediately. Follow all emergency procedures",
+    "SITE LOCKDOWN": "SITE LOCKDOWN! Multiple breaches detected. All armed personnel respond immediately",
+    "CLASS-D ESCAPE": "Class-D personnel have escaped containment. All staff stay alert",
+    "CLASS-D RIOT": "Class-D personnel are rioting. Security teams must contain the situation immediately",
+    "610 EVENT": "SCP-610 anomaly active. Avoid exposure. Containment and quarantine teams deploy immediately",
+    "076 EVENT": "SCP-076 containment breach. Armed response teams engage immediately with heavy gunfire",
+    "NUCLEAR PROTOCOL": "All personnel must evacuate to shelters immediately. Failure to comply will result in fatality",
+    "CLEAR": "All personnel resume normal duties",
+    "CHAOS INSURGENCY": "Chaos Insurgency activity detected. All armed personnel proceed to intercept and contain threats"
+  };
+
+  // Test Perm Needed
+  let testPermText = "";
+  if (document.getElementById('testPermCheck').checked) {
+    let testSelected = Array.from(document.querySelectorAll('.testscp:checked')).map(cb => cb.value);
+    testSelected = testSelected.filter(s => s !== 'CON-X').concat(testSelected.includes('CON-X') ? ['CON-X'] : []);
+    if (testSelected.length > 0) testPermText = " | Test Perm Needed For: " + testSelected.map(s => s.includes('SCP-') ? s.split('-')[1] : s).join(', ');
+  }
+
+  // Extras (ID)
+  let extras = [];
+  if (document.getElementById('id').checked) extras.push('Present ID at CP');
+
+  const showEvent = document.getElementById('showEventText').checked;
+  let finalText = (showEvent && statusTexts[status]) ? statusTexts[status] : "";
+
+  // Custom Event
+  const customEventSelect = document.getElementById('customEventSelect');
+  if(customEventSelect.value) finalText = customEventSelect.value;
+
+  let broadcast = `/broadcast Site Status: ${status} | Threat: ${threat} | Testing: ${testing}`;
+  if (scpsText) broadcast += " | " + scpsText;
+  if (finalText) broadcast += " | " + finalText;
+  broadcast += testPermText;
+  if (extras.length > 0) broadcast += " | " + extras.join(', ');
+
+  if (document.getElementById('appendSCP').checked) broadcast += " | S.C.P";
+
+  document.getElementById('typedText').innerText = broadcast;
+}
+
+// Inicializa broadcast
+generateBroadcast();
+
+function copyBroadcast() {
+  const broadcastText = document.getElementById('typedText').innerText;
+  navigator.clipboard.writeText(broadcastText).then(() => {
+    alert('Broadcast copied to clipboard!');
+  });
+}
+
+// Custom Event Menu Functions
+function toggleCustomEventMenu() {
+  const menu = document.getElementById('customEventMenu');
+  menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+}
+
+function hideCustomEventMenu() {
+  document.getElementById('customEventMenu').style.display = 'none';
+}
+
+function addCustomEvent() {
+  const input = document.getElementById('customEventInput');
+  if(input.value && !customEvents.includes(input.value)){
+    customEvents.push(input.value);
+    updateCustomEventSelect();
+    input.value = '';
+  }
+}
+
+function updateCustomEventSelect() {
+  const select = document.getElementById('customEventSelect');
+  select.innerHTML = '';
+  customEvents.forEach(ev => {
+    const option = document.createElement('option');
+    option.value = ev;
+    option.innerText = ev;
+    select.appendChild(option);
+  });
+}
+
+function selectCustomEvent() {
+  generateBroadcast();
+}
+
+function deselectCustomEvent() {
+  document.getElementById('customEventSelect').value = '';
+  generateBroadcast();
+}
+</script>
+
+</body>
+</html>
